@@ -1,45 +1,37 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>学生端 · 课程讲义系统</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>课程讲义 · 学生端</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="app-header">
-    <span class="brand">📚 课程讲义系统</span>
-    <span class="role-tag student">学生端</span>
-    <span class="spacer"></span>
-    <span id="courseTitle" class="meta-line"></span>
-    <a class="back-link" href="index.html">← 返回入口</a>
+  <header class="topbar">
+    <div class="logo">📚 课程讲义<span class="tag">学生端</span></div>
+    <div class="spacer"></div>
+    <div class="api-config">
+      <span>后端地址</span>
+      <input id="api-base" type="text" placeholder="http://localhost:8080">
+    </div>
+    <a href="teacher.html">切换到老师端 →</a>
   </header>
 
-  <main class="student-layout">
-    <!-- 左：已发布课程目录 -->
-    <section class="panel">
-      <div class="panel-head">
-        <span>课程目录（已发布）</span>
-        <span class="spacer"></span>
-        <button id="btnRefresh" class="btn small">刷新</button>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="panel-head"><span>已发布讲义</span></div>
+      <div id="course-tree"><div class="empty">加载中…</div></div>
+    </aside>
+    <main class="main">
+      <div id="reader" class="reader">
+        <div class="empty">👈 从左侧选择一篇讲义开始阅读<br><span class="hint">学生端仅展示老师已发布的讲义</span></div>
       </div>
-      <div class="panel-body" id="sidebar"></div>
-    </section>
+    </main>
+  </div>
 
-    <!-- 右：讲义阅读 -->
-    <section class="panel">
-      <div class="detail-head" id="readerHead">
-        <h2>讲义阅读</h2>
-      </div>
-      <div class="detail-body" id="readerBody">
-        <div class="empty">从左侧选择一门课程，再选择已发布的讲义开始阅读。</div>
-      </div>
-    </section>
-  </main>
-
-  <script src="js/config.js"></script>
-  <script src="js/util.js"></script>
+  <div id="toast"></div>
   <script src="js/api.js"></script>
+  <script src="js/markdown.js"></script>
   <script src="js/student.js"></script>
 </body>
 </html>

@@ -3,35 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>课程讲义 · 学生端</title>
+  <title>课程讲义系统</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <header class="topbar">
-    <div class="logo">📚 课程讲义<span class="tag">学生端</span></div>
-    <div class="spacer"></div>
-    <div class="api-config">
-      <span>后端地址</span>
-      <input id="api-base" type="text" placeholder="http://localhost:8080">
+<body class="portal-body">
+  <div class="portal">
+    <div class="portal-logo">📚</div>
+    <h1>课程讲义系统</h1>
+    <p class="portal-sub">老师编写并发布讲义，学生在线阅读已发布内容</p>
+    <div class="portal-cards">
+      <a class="portal-card-link teacher" href="teacher.html">
+        <span class="portal-emoji">🧑‍🏫</span>
+        <strong>老师端</strong>
+        <em>维护课程 / 章节 / 讲义正文与发布状态</em>
+      </a>
+      <a class="portal-card-link student" href="student.html">
+        <span class="portal-emoji">🧑‍🎓</span>
+        <strong>学生端</strong>
+        <em>浏览课程目录，阅读已发布讲义</em>
+      </a>
     </div>
-    <a href="teacher.html">切换到老师端 →</a>
-  </header>
-
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="panel-head"><span>已发布讲义</span></div>
-      <div id="course-tree"><div class="empty">加载中…</div></div>
-    </aside>
-    <main class="main">
-      <div id="reader" class="reader">
-        <div class="empty">👈 从左侧选择一篇讲义开始阅读<br><span class="hint">学生端仅展示老师已发布的讲义</span></div>
-      </div>
-    </main>
+    <p class="portal-hint">
+      默认后端地址 <code>http://localhost:8080</code>，老师令牌默认
+      <code>teacher-123456</code>，可在各页面顶栏直接修改（保存在浏览器本地）。
+    </p>
   </div>
-
-  <div id="toast"></div>
-  <script src="js/api.js"></script>
-  <script src="js/markdown.js"></script>
-  <script src="js/student.js"></script>
 </body>
 </html>

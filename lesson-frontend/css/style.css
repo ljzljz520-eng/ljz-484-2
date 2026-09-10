@@ -137,3 +137,42 @@ input:focus, textarea:focus { outline: 2px solid rgba(37, 99, 235, .25); border-
 }
 #toast.show { opacity: .92; }
 #toast.err { background: var(--red); }
+
+/* ===== 门户入口 ===== */
+.portal-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef2ff 0%, #f0fdfa 100%);
+}
+.portal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(30, 41, 59, .1);
+  padding: 44px 42px;
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+}
+.portal-logo { font-size: 46px; }
+.portal h1 { font-size: 26px; margin: 12px 0 6px; }
+.portal-sub { color: var(--text-dim); margin: 0 0 28px; }
+.portal-cards { display: flex; flex-direction: column; gap: 12px; text-align: left; }
+.portal-card-link {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 18px; border-radius: 10px; text-decoration: none;
+  color: #fff; transition: transform .12s ease, box-shadow .12s ease;
+}
+.portal-card-link:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30,41,59,.18); }
+.portal-card-link.teacher { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
+.portal-card-link.student { background: linear-gradient(135deg, #0d9488, #0f766e); }
+.portal-emoji { font-size: 26px; }
+.portal-card-link strong { display: block; font-size: 16px; }
+.portal-card-link em { display: block; font-style: normal; font-size: 12px; opacity: .9; margin-top: 2px; }
+.portal-hint { color: var(--text-dim); font-size: 12px; margin: 24px 0 0; line-height: 1.8; }
+.portal-hint code {
+  background: #f1f5f9; padding: 1px 6px; border-radius: 4px;
+  color: #be185d; font-family: "SF Mono", Consolas, monospace;
+}
