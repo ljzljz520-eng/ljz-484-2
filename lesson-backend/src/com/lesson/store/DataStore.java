@@ -90,7 +90,10 @@ public class DataStore {
         root.put("lectures", ls);
 
         try {
-            Files.createDirectories(file.getParent());
+            Path parent = file.toAbsolutePath().getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
             Path tmp = file.resolveSibling(file.getFileName().toString() + ".tmp");
             Files.write(tmp, Json.stringify(root).getBytes(StandardCharsets.UTF_8));
             try {

@@ -9,6 +9,52 @@
             .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
+  // 浏览器解析 HTML 属性时会先解码实体、再忽略换行/制表等控制字符，
+  // 因此校验前必须先把这些混淆还原，否则可用 javascript&#58;alert(1)、
+  // java&#09;script: 等形式绕过协议检查。
+  var NAMED_ENTITIES = {
+    'colon': ':', 'tab': '\t', 'newline': '\n', 'NewLine': '\n',
+    'amp': '&', 'semi': ';', 'lpar': '(', 'rpar': ')'
+  };
+
+  function decodeEntities(s) {
+    return s.replace(/&#(\d+);?/g, (m, code) => String.fromCodePoint(+code))
+            .replace(/&#x([0-9a-f]+);?/gi, (m, hex) => String.fromCodePoint(parseInt(hex, 16)))
+            .replace(/&([a-z]+);?/gi, (m, name) =>
+              Object.prototype.hasOwnProperty.call(NAMED_ENTITIES, name.toLowerCase())
+                ? NAMED_ENTITIES[name.toLowerCase()] : m);
+  }
+
+  // 危险协议（实体解码、去除控制字符后判断）
+  var DANGEROUS_PROTO = /^(javascript|vbscript|file|data)\s*:/i;
+
+  /**
+   * 校验 URL：只允许 http(s)、协议相对(//)、站点相对(/)、页内锚点(#) 及无协议相对路径。
+   * 拦截 javascript:、vbscript:、file:、data: 等可执行/非网络协议，防止 XSS。
+   * 返回 null 表示该 URL 不安全（渲染时去掉 href/src 属性）。
+   */
+  function safeUrl(u) {
+    // 先按 HTML 属性的语义还原实体（可能嵌套编码，循环解码至稳定）
+    let url = String(u == null ? '' : u);
+    for (let k = 0; k < 3; k++) {
+      const decoded = decodeEntities(url);
+      if (decoded === url) {
+        break;
+      }
+      url = decoded;
+    }
+    // 浏览器 URL 解析时会剥离这些字符
+    url = url.replace(/[\x00-\x20]+/g, '');
+    if (url === '' || DANGEROUS_PROTO.test(url)) {
+      return null;
+    }
+    if (/^[a-z][a-z0-9+.-]*:/i.test(url) && !/^https?:/i.test(url)) {
+      return null; // 其他任意协议一律拒绝
+    }
+    // 返回的仍是已 HTML 转义后的安全文本（入参已转义），实体还原仅用于判断
+    return String(u == null ? '' : u);
+  }
+
   function inline(text) {
     let t = escapeHtml(text);
     const codes = [];
@@ -17,8 +63,16 @@
       codes.push('<code>' + c + '</code>');
       return '\x00' + (codes.length - 1) + '\x00';
     });
-    t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img alt="$1" src="$2">');
-    t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (m, alt, src) => {
+      const url = safeUrl(src);
+      return url ? '<img alt="' + alt + '" src="' + url + '">' : '<img alt="' + alt + '">';
+    });
+    t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, label, href) => {
+      const url = safeUrl(href);
+      return url
+        ? '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
+        : '<a rel="noopener noreferrer">' + label + '</a>';
+    });
     t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     t = t.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
     t = t.replace(/~~([^~]+)~~/g, '<del>$1</del>');
