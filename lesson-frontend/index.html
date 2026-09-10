@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>课程讲义 · 学生端</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo">📚 课程讲义<span class="tag">学生端</span></div>
+    <div class="spacer"></div>
+    <div class="api-config">
+      <span>后端地址</span>
+      <input id="api-base" type="text" placeholder="http://localhost:8080">
+    </div>
+    <a href="teacher.html">切换到老师端 →</a>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="panel-head"><span>已发布讲义</span></div>
+      <div id="course-tree"><div class="empty">加载中…</div></div>
+    </aside>
+    <main class="main">
+      <div id="reader" class="reader">
+        <div class="empty">👈 从左侧选择一篇讲义开始阅读<br><span class="hint">学生端仅展示老师已发布的讲义</span></div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast"></div>
+  <script src="js/api.js"></script>
+  <script src="js/markdown.js"></script>
+  <script src="js/student.js"></script>
+</body>
+</html>

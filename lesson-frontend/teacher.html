@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>课程讲义 · 老师端</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo">📚 课程讲义<span class="tag">老师端</span></div>
+    <div class="spacer"></div>
+    <div class="api-config">
+      <span>令牌</span>
+      <input id="teacher-token" type="text" placeholder="teacher-123456" style="width:130px">
+      <span>后端地址</span>
+      <input id="api-base" type="text" placeholder="http://localhost:8080">
+    </div>
+    <a href="index.html">切换到学生端 →</a>
+  </header>
+
+  <div class="layout">
+    <!-- 课程栏 -->
+    <aside class="sidebar">
+      <div class="panel-head">
+        <span>课程</span>
+        <div class="actions"><button id="btn-new-course">+ 新建</button></div>
+      </div>
+      <div id="course-list"><div class="empty">加载中…</div></div>
+    </aside>
+
+    <!-- 章节 / 讲义栏 -->
+    <aside class="sidebar2">
+      <div class="panel-head">
+        <span id="current-course-name">章节与讲义</span>
+        <div class="actions"><button id="btn-new-chapter" disabled>+ 章节</button></div>
+      </div>
+      <div id="chapter-tree"><div class="empty">请先选择左侧课程</div></div>
+    </aside>
+
+    <!-- 编辑器 -->
+    <main class="main">
+      <div id="editor-empty" class="empty" style="margin-top:120px">
+        ✏️ 选择一篇讲义开始编辑，或在章节下新建讲义<br>
+        <span class="hint">正文支持 Markdown，保存后点击「发布」学生端才可见</span>
+      </div>
+      <div id="editor" style="display:none">
+        <div class="editor-bar">
+          <input id="editor-title" class="title-input" type="text" placeholder="讲义标题">
+          <span id="editor-status" class="badge draft">草稿</span>
+          <button id="btn-save" class="primary">保存 (Ctrl+S)</button>
+          <button id="btn-publish">发布</button>
+          <button id="btn-delete" class="danger">删除</button>
+        </div>
+        <div class="editor-cols">
+          <div>
+            <label>Markdown 正文</label>
+            <textarea id="editor-content" placeholder="# 在这里编写讲义正文…" spellcheck="false"></textarea>
+          </div>
+          <div>
+            <label>实时预览</label>
+            <div id="editor-preview" class="preview-box md"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast"></div>
+  <script src="js/api.js"></script>
+  <script src="js/markdown.js"></script>
+  <script src="js/teacher.js"></script>
+</body>
+</html>

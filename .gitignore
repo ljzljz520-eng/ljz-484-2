@@ -1,0 +1,6 @@
+# Java 编译产物
+lesson-backend/out/
+
+# 运行时生成的数据文件（首次启动自动播种示例数据）
+lesson-backend/data/db.json
+lesson-backend/data/db.json.tmp

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>学生端 · 课程讲义系统</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <span class="brand">📚 课程讲义系统</span>
+    <span class="role-tag student">学生端</span>
+    <span class="spacer"></span>
+    <span id="courseTitle" class="meta-line"></span>
+    <a class="back-link" href="index.html">← 返回入口</a>
+  </header>
+
+  <main class="student-layout">
+    <!-- 左：已发布课程目录 -->
+    <section class="panel">
+      <div class="panel-head">
+        <span>课程目录（已发布）</span>
+        <span class="spacer"></span>
+        <button id="btnRefresh" class="btn small">刷新</button>
+      </div>
+      <div class="panel-body" id="sidebar"></div>
+    </section>
+
+    <!-- 右：讲义阅读 -->
+    <section class="panel">
+      <div class="detail-head" id="readerHead">
+        <h2>讲义阅读</h2>
+      </div>
+      <div class="detail-body" id="readerBody">
+        <div class="empty">从左侧选择一门课程，再选择已发布的讲义开始阅读。</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/util.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/student.js"></script>
+</body>
+</html>
